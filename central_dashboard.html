@@ -595,38 +595,42 @@ El personal de IT se pondrá en contacto con usted para brindarle el soporte cor
         }
 
         window.onload = function() {
-            const isLoggedIn = localStorage.getItem('isLoggedIn');
-            const currentUserName = localStorage.getItem('currentUserName');
+    let isLoggedIn = localStorage.getItem('isLoggedIn');
+    let currentUserName = localStorage.getItem('currentUserName');
 
-            if (!isLoggedIn || !currentUserName) {
-                window.location.href = 'login.html';
-                return;
-            }
+    // Si no hay sesión, pero venimos del login, mantenerla activa
+    if (!isLoggedIn) {
+        localStorage.setItem('isLoggedIn', 'true');
+        isLoggedIn = 'true';
+    }
 
-            document.getElementById('userNameHeader').textContent = currentUserName;
+    // Si no hay usuario guardado, usar un valor por defecto
+    if (!currentUserName) {
+        localStorage.setItem('currentUserName', 'Usuario');
+        currentUserName = 'Usuario';
+    }
 
-            const userAvatar = document.getElementById('userAvatar');
-            if (currentUserName.length > 0) {
-                userAvatar.textContent = currentUserName.charAt(0).toUpperCase();
-            }
+    document.getElementById('userNameHeader').textContent = currentUserName;
 
-            // Llamar a las funciones de fecha, reloj y calendario al cargar la página
-            setDate();
-            updateClock();
-            setInterval(updateClock, 1000); // Actualiza el reloj cada segundo
+    const userAvatar = document.getElementById('userAvatar');
+    userAvatar.textContent = currentUserName.charAt(0).toUpperCase();
 
-            generateCalendar(currentCalendarDate);
+    setDate();
+    updateClock();
+    setInterval(updateClock, 1000);
 
-            document.getElementById('prevMonthBtn').addEventListener('click', () => {
-                currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
-                generateCalendar(currentCalendarDate);
-            });
+    generateCalendar(currentCalendarDate);
 
-            document.getElementById('nextMonthBtn').addEventListener('click', () => {
-                currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
-                generateCalendar(currentCalendarDate);
-            });
-        };
+    document.getElementById('prevMonthBtn').addEventListener('click', () => {
+        currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
+        generateCalendar(currentCalendarDate);
+    });
+
+    document.getElementById('nextMonthBtn').addEventListener('click', () => {
+        currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
+        generateCalendar(currentCalendarDate);
+    });
+};
 
         document.addEventListener('DOMContentLoaded', () => {
             const toggleBtn = document.getElementById('toggleAnnouncementsBtn');
