@@ -3,16 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
-    
+
     <title>Panel de Control</title>
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-         <link rel="icon" type="image/png" href="xpront.png">
+    <link rel="icon" type="image/png" href="xpront.png">
 
     <style>
         :root {
@@ -139,7 +139,7 @@
 
         .sidebar-widget-container {
             /* AJUSTE: Reducido el margen superior para subir el contenedor completo */
-            margin-top: 0px; 
+            margin-top: 0px;
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -159,7 +159,7 @@
             font-weight: 600;
             color: var(--secondary);
         }
-        
+
         .sidebar-clock h4 {
             font-size: 1rem;
             margin-bottom: 10px;
@@ -430,7 +430,8 @@
 <body>
     <aside class="sidebar">
         <a href="https://www.imadeit.com" class="brand" target="_blank">
-            <img src="https://tse4.mm.bing.net/th/id/OIP.bXE8Q_tzOc1BHxAgzU2k2AAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Logo Imade IT">
+            <img src="https://tse4.mm.bing.net/th/id/OIP.bXE8Q_tzOc1BHxAgzU2k2AAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3"
+                alt="Logo Imade IT">
         </a>
         <nav class="nav-menu">
             <a href="#" class="nav-link active"><i class="fas fa-home"></i> Panel Principal</a>
@@ -462,7 +463,8 @@
                 <p>Aquí tienes un resumen de tu actividad. Hoy es <span id="currentDate"></span>.</p>
             </div>
             <div class="header-user">
-                <button onclick="logout()" class="logout-btn" title="Cerrar Sesión"><i class="fas fa-sign-out-alt"></i></button>
+                <button onclick="logout()" class="logout-btn" title="Cerrar Sesión"><i
+                        class="fas fa-sign-out-alt"></i></button>
                 <div class="user-avatar" id="userAvatar">U</div>
             </div>
         </header>
@@ -482,14 +484,16 @@
             <section class="content-section announcement-section fade-up" style="animation-delay: 0.4s;">
                 <div class="section-header">
                     <h2>Noticias y Anuncios de IT</h2>
-                    <button id="toggleAnnouncementsBtn" class="btn-secondary">Ver más <i class="fas fa-arrow-down"></i></button>
+                    <button id="toggleAnnouncementsBtn" class="btn-secondary">Ver más <i
+                            class="fas fa-arrow-down"></i></button>
                 </div>
                 <div class="announcement-list" id="announcementList">
                     <div class="announcement-card">
                         <i class="fas fa-tools icon-announcement"></i>
                         <div class="announcement-content">
                             <h3>Aviso de Mantenimiento / Actualización</h3>
-                            <p>Estar atento al grupo de "Avisos Imade" en el se notificara cuando SmartBit requiera que salgan de sistema.</p>
+                            <p>Estar atento al grupo de "Avisos Imade" en el se notificara cuando SmartBit requiera que
+                                salgan de sistema.</p>
                             <span class="announcement-date">1 de octubre, 2025</span>
                         </div>
                     </div>
@@ -497,7 +501,8 @@
                         <i class="fas fa-shield-alt icon-announcement"></i>
                         <div class="announcement-content">
                             <h3>Recordatorio de políticas contra el phishing</h3>
-                            <p>Recuerde no abrír links de dudosa procedencia, podría estar vulnerable a ataques ciberneticos para robar su información.</p>
+                            <p>Recuerde no abrír links de dudosa procedencia, podría estar vulnerable a ataques
+                                ciberneticos para robar su información.</p>
                             <span class="announcement-date">17 de septiembre, 2025</span>
                         </div>
                     </div>
@@ -506,7 +511,8 @@
                         <div class="announcement-content">
                             <h3>Políticas del departamento de IT</h3>
                             <p>Un solo ticket es suficiente para procesar su solicitud.
-El personal de IT se pondrá en contacto con usted para brindarle el soporte correspondiente..</p>
+                                El personal de IT se pondrá en contacto con usted para brindarle el soporte
+                                correspondiente..</p>
                             <span class="announcement-date">15 de septiembre, 2025</span>
                         </div>
                     </div>
@@ -514,7 +520,8 @@ El personal de IT se pondrá en contacto con usted para brindarle el soporte cor
                         <i class="fas fa-lightbulb icon-announcement"></i>
                         <div class="announcement-content">
                             <h3>Consejo</h3>
-                            <p>Cierra las aplicaciones que no estés usando y borra los archivos temporales para mejorar el rendimiento. Si el problema persiste, crea un ticket.</p>
+                            <p>Cierra las aplicaciones que no estés usando y borra los archivos temporales para mejorar
+                                el rendimiento. Si el problema persiste, crea un ticket.</p>
                             <span class="announcement-date">10 de septiembre, 2025</span>
                         </div>
                     </div>
@@ -522,7 +529,6 @@ El personal de IT se pondrá en contacto con usted para brindarle el soporte cor
             </section>
         </main>
     </div>
-
     <script>
         function logout() {
             // Se ha comentado esta línea para que las credenciales no se borren al cerrar sesión.
@@ -533,12 +539,7 @@ El personal de IT se pondrá en contacto con usted para brindarle el soporte cor
         function setDate() {
             const dateElement = document.getElementById('currentDate');
             const today = new Date();
-            const options = {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            };
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             dateElement.textContent = today.toLocaleDateString('es-ES', options);
         }
 
@@ -550,13 +551,13 @@ El personal de IT se pondrá en contacto con usted para brindarle el soporte cor
             const seconds = String(now.getSeconds()).padStart(2, '0');
             clockElement.textContent = `${hours}:${minutes}:${seconds}`;
         }
-        
+
         let currentCalendarDate = new Date();
 
         function generateCalendar(date) {
             const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
             const dayNames = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
-            
+
             const today = new Date();
             const month = date.getMonth();
             const year = date.getFullYear();
@@ -570,6 +571,7 @@ El personal de IT se pondrá en contacto con usted para brindarle el soporte cor
             const calendarGrid = document.getElementById('calendarGrid');
             calendarGrid.innerHTML = '';
 
+            // Nombres de los días
             dayNames.forEach(day => {
                 const dayNameElement = document.createElement('div');
                 dayNameElement.classList.add('day-name');
@@ -577,12 +579,14 @@ El personal de IT se pondrá en contacto con usted para brindarle el soporte cor
                 calendarGrid.appendChild(dayNameElement);
             });
 
+            // Días vacíos antes del primer día del mes
             for (let i = 0; i < firstDayOfMonth; i++) {
                 const emptyDay = document.createElement('div');
                 emptyDay.classList.add('empty');
                 calendarGrid.appendChild(emptyDay);
             }
 
+            // Días del mes
             for (let day = 1; day <= daysInMonth; day++) {
                 const dayElement = document.createElement('div');
                 dayElement.classList.add('day');
@@ -593,67 +597,68 @@ El personal de IT se pondrá en contacto con usted para brindarle el soporte cor
                 calendarGrid.appendChild(dayElement);
             }
         }
-window.onload = function() {
-  try {
-    // Leer datos del almacenamiento local
-    let isLoggedIn = localStorage.getItem('isLoggedIn');
-    let currentUserName = localStorage.getItem('currentUserName');
 
-    // Si algo falla o no existe, forzar sesión activa
-    if (isLoggedIn !== 'true') {
-      localStorage.setItem('isLoggedIn', 'true');
-      isLoggedIn = 'true';
-    }
+        window.onload = function () {
+            try {
+                // Leer datos del almacenamiento local
+                let isLoggedIn = localStorage.getItem('isLoggedIn');
+                let currentUserName = localStorage.getItem('currentUserName');
 
-    if (!currentUserName || currentUserName.trim() === '') {
-      localStorage.setItem('currentUserName', 'Usuario');
-      currentUserName = 'Usuario';
-    }
+                // Si algo falla o no existe, forzar sesión activa
+                if (isLoggedIn !== 'true') {
+                    localStorage.setItem('isLoggedIn', 'true');
+                    isLoggedIn = 'true';
+                }
 
-    // Actualizar interfaz
-    document.getElementById('userNameHeader').textContent = currentUserName;
-    document.getElementById('userAvatar').textContent = currentUserName.charAt(0).toUpperCase();
+                if (!currentUserName || currentUserName.trim() === '') {
+                    localStorage.setItem('currentUserName', 'Usuario');
+                    currentUserName = 'Usuario';
+                }
 
-    // Iniciar reloj y calendario
-    setDate();
-    updateClock();
-    setInterval(updateClock, 1000);
-    generateCalendar(currentCalendarDate);
+                // Actualizar interfaz
+                document.getElementById('userNameHeader').textContent = currentUserName;
+                document.getElementById('userAvatar').textContent = currentUserName.charAt(0).toUpperCase();
 
-    document.getElementById('prevMonthBtn').addEventListener('click', () => {
-      currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
-      generateCalendar(currentCalendarDate);
-    });
+                // Iniciar reloj y calendario
+                setDate();
+                updateClock();
+                setInterval(updateClock, 1000);
+                generateCalendar(currentCalendarDate);
 
-    document.getElementById('nextMonthBtn').addEventListener('click', () => {
-      currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
-      generateCalendar(currentCalendarDate);
-    });
+                document.getElementById('prevMonthBtn').addEventListener('click', () => {
+                    currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
+                    generateCalendar(currentCalendarDate);
+                });
 
-  } catch (e) {
-    console.error('Error cargando sesión:', e);
-    // En caso extremo, fuerza sesión activa
-    localStorage.setItem('isLoggedIn', 'true');
-  }
-};
+                document.getElementById('nextMonthBtn').addEventListener('click', () => {
+                    currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
+                    generateCalendar(currentCalendarDate);
+                });
 
-       
+            } catch (e) {
+                console.error('Error cargando sesión:', e);
+                // En caso extremo, fuerza sesión activa
+                localStorage.setItem('isLoggedIn', 'true');
+            }
+        };
+
+        // Mostrar / ocultar anuncios
         document.addEventListener('DOMContentLoaded', () => {
             const toggleBtn = document.getElementById('toggleAnnouncementsBtn');
             const announcementList = document.getElementById('announcementList');
 
-            if(toggleBtn) {
+            if (toggleBtn) {
                 toggleBtn.addEventListener('click', () => {
                     const isExpanded = announcementList.classList.toggle('expanded');
-                    const icon = toggleBtn.querySelector('i');
                     const text = isExpanded ? 'Ver menos' : 'Ver más';
                     const iconClass = isExpanded ? 'fa-arrow-up' : 'fa-arrow-down';
-
                     toggleBtn.innerHTML = `${text} <i class="fas ${iconClass}"></i>`;
                 });
             }
         });
     </script>
-</body>
-</html>
 
+
+</body>
+
+</html>
