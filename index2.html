@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Imade IT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #022c4f;
+      --primary-light: #048a30;
+      --secondary: #000000;
+      --text-color: #3b5137;
+      --muted-color: #000000;
+      --bg-color: #f5f7fa;
+      --surface-color: #ffffff;
+      --border-color: #e5e7eb;
+      --danger: #ef4444;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --info: #3b82f6;
+      --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+      --radius: 16px;
+      --transition: 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+      overflow: hidden;
+      /* ✅ sin scroll */
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav {
+      background: var(--surface-color);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      flex-shrink: 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+      font-size: 20px;
+      color: var(--secondary);
+      text-decoration: none;
+    }
+
+    .brand .badge {
+      background: #ffffff;
+      width: 50px;
+      height: 50px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .brand .badge img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+    }
+
+    .hero {
+      flex: 1;
+      height: calc(100vh - 120px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 20px;
+    }
+
+    .card {
+  background: var(--surface-color);
+  padding: 25px 30px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  width: 100%;
+  max-width: 750px;
+  text-align: center;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between;  <-- quitar */
+  /* height: 90%;  <-- quitar */
+}
+
+
+    .card h2 {
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--secondary);
+    }
+
+    .card p {
+      color: var(--secondary);
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .opt {
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-weight: 500;
+      text-decoration: none;
+      text-align: left;
+    }
+
+    .opt i {
+      font-size: 18px;
+      color: var(--primary);
+      width: 20px;
+      text-align: center;
+      margin-top: 3px;
+    }
+
+    .opt.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .opt.active i {
+      color: white;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      background: var(--primary);
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all var(--transition);
+    }
+
+    .btn:hover {
+      background: var(--primary-light);
+    }
+
+    .info-section {
+  text-align: left;
+  font-size: 0.9rem;
+  color: #4b5563;
+  margin-top: 0px; /* antes era 10px */
+  border-top: 1px solid var(--border-color);
+  padding-top: 1px;
+}
+
+
+    .info-section h3 {
+      color: var(--primary);
+      font-size: 1.05rem;
+      margin-bottom: 10px;
+    }
+
+    .info-section ul {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 10px;
+    }
+
+    .info-section li {
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-section li i {
+      color: var(--primary);
+      width: 18px;
+    }
+
+    .info-section p {
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin: 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px;
+      color: var(--muted-color);
+      font-size: 12px;
+      border-top: 1px solid var(--border-color);
+      background: var(--surface-color);
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 560px) {
+      .options {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 5px;
+      }
+
+      .card {
+        padding: 20px;
+        height: auto;
+      }
+
+      body {
+        overflow-y: auto;
+      }
+    }
+
+    .notification-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .notification-modal-content {
+      background-color: var(--surface-color);
+      margin: auto;
+      padding: 25px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      width: 80%;
+      max-width: 380px;
+      text-align: center;
+      border: 1px solid var(--border-color);
+    }
+
+    .notification-modal-content h3 {
+      margin-bottom: 10px;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .notification-modal-content p {
+      margin-bottom: 15px;
+      color: var(--text-color);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="nav">
+    <div class="brand">
+      <div class="badge">
+        <img src="logo.png" alt="Logo Imade IT">
+      </div>
+      Imade IT
+    </div>
+  </nav>
+
+  <main class="hero">
+    <section class="card">
+      <div>
+        <h2>¿Qué tipo de solicitud deseas realizar?</h2>
+        <p>Nuestro equipo revisará tu caso y te contactará a la brevedad posible.</p>
+
+        <div class="options">
+          <label class="opt" onclick="selectOption(this, 'equipo')">
+            <i class="fas fa-laptop"></i>
+            <div>
+              <strong>Equipo</strong><br>
+              <span style="font-size: 0.85rem; color: #6b7280;">Reporta inconvenientes con tu equipo físico, como
+                computadoras, impresoras, teclados u otros dispositivos, y solicita asistencia técnica o
+                mantenimiento.</span>
+            </div>
+            <input type="radio" name="tipo" value="equipo">
+          </label>
+
+          <label class="opt" onclick="selectOption(this, 'servicio')">
+            <i class="fas fa-cogs"></i>
+            <div>
+              <strong>Servicio</strong><br>
+              <span style="font-size: 0.85rem; color: #6b7280;">Reporta problemas con SmartBit, Microsoft u otros
+                programas, y solicita asistencia técnica para resolver errores, lentitud o fallas de
+                funcionamiento.</span>
+            </div>
+            <input type="radio" name="tipo" value="servicio">
+          </label>
+        </div>
+        <p>
+          <button class="btn" onclick="enviar()">Continuar</button>
+      </div>
+      </p>
+      <div class="info-section">
+        <h3>Tiempos y Atención</h3>
+        <ul>
+          <li><i class="fas fa-clock"></i><strong>Tiempo de respuesta:</strong> 2 a 4 horas hábiles.</li>
+          <li><i class="fas fa-calendar-alt"></i><strong>Horario de atención:</strong> Lunes a Viernes, 7:00 a.m. – 5:00
+            p.m.</li>
+
+        </ul>
+        <p>Envía tu solicitud y nuestro equipo técnico estará listo para ayudarte. El departamento de sistemas asignará la prioridad adecuada a tu ticket y te irá notificando por correo electrónico cada actualización o avance de tu caso.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Imade IT — Todos los derechos reservados.
+  </footer>
+
+  <div id="notificationModal" class="notification-modal">
+    <div class="notification-modal-content">
+      <h3 id="notificationTitle"></h3>
+      <p id="notificationMessage"></p>
+      <button id="notificationCloseBtn" class="btn">Aceptar</button>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    let selected = '';
+    function selectOption(el, value) {
+      document.querySelectorAll('.opt').forEach(opt => opt.classList.remove('active'));
+      el.classList.add('active');
+      selected = value;
+    }
+    function enviar() {
+      if (selected === 'equipo') {
+        window.location.href = 'equipo.html';
+      } else if (selected === 'servicio') {
+        window.location.href = 'servicio.html';
+      } else {
+        showNotification('Selección Requerida', 'Selecciona una opción primero para continuar.', 'warning');
+      }
+    }
+    function showNotification(title, message, type = 'info', callback = null) {
+      const modal = document.getElementById('notificationModal');
+      const titleElement = document.getElementById('notificationTitle');
+      const messageElement = document.getElementById('notificationMessage');
+      const closeBtn = document.getElementById('notificationCloseBtn');
+      titleElement.textContent = title;
+      messageElement.textContent = message;
+      closeBtn.className = 'btn';
+      if (type === 'error') closeBtn.classList.add('error');
+      else if (type === 'success') closeBtn.classList.add('success');
+      else if (type === 'warning') closeBtn.style.backgroundColor = 'var(--warning)';
+      modal.style.display = 'flex';
+      closeBtn.onclick = () => { modal.style.display = 'none'; if (callback) callback(); };
+      modal.onclick = (event) => { if (event.target === modal) { modal.style.display = 'none'; if (callback) callback(); } };
+    }
+    window.onload = function () {
+      const isLoggedIn = localStorage.getItem('isLoggedIn');
+      if (!isLoggedIn) {
+        showNotification('No has iniciado sesión', 'Redirigiendo al login.', 'error', () => {
+          window.location.href = 'login.html';
+        });
+      }
+    };
+  </script>
+</body>
+
+</html>

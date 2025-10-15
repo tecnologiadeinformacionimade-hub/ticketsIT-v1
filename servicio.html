@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Ticket de Soporte - Servicios</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg: #f5f7fa;
+      --surface: #ffffff;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+      --primary: #022c4f;
+      --radius: 14px;
+      --shadow: 0 10px 30px rgba(0, 0, 0, .1);
+      --glow: 0 0 15px rgba(59, 130, 246, 0.6);
+    }
+
+    body {
+      font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .nav {
+      background: var(--surface);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .brand .badge {
+      background: #ffffff;
+      width: 45px;
+      height: 45px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .brand .badge img {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+    }
+
+    .hero {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    .card {
+      background: var(--surface);
+      padding: 20px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .card h2 {
+      margin-bottom: 15px;
+      text-align: center;
+      font-size: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 10px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
+      color: var(--muted);
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--muted);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    /* Estilos para el contenedor del input de teléfono */
+    .phone-input-container {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .phone-input-container select {
+        width: auto;
+        flex-shrink: 0;
+    }
+
+    .phone-input-container input {
+        flex-grow: 1;
+    }
+
+    textarea {
+      height: 70px;
+      resize: vertical;
+    }
+
+    .btn {
+      padding: 10px;
+      border: none;
+      background: var(--primary);
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 15px;
+      margin-top: 5px;
+    }
+
+    .btn:hover {
+      box-shadow: var(--glow);
+      transform: translateY(-2px);
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: auto;
+    }
+
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: bold;
+      z-index: 9999;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="loading" class="loading-screen">Generando ticket... Redirigiendo 🚀</div>
+
+  <nav class="nav">
+    <div class="brand">
+      <div class="badge">
+        <a href="central_dashboard.html"><img src="logo.png" alt="Logo Empresa"></a>
+      </div>
+      Imade IT
+    </div>
+  </nav>
+
+  <main class="hero">
+    <section class="card">
+      <h2>Soporte técnico de Servicios</h2>
+
+      <div class="form-group">
+        <label for="nombreTienda">Nombre del solicitante:</label>
+        <input type="text" id="nombreTienda" placeholder="Ejemplo: Juan Pérez" required>
+      </div>
+
+      <div class="form-group">
+        <label for="opciones">Tienda:</label>
+        <select id="opciones" required>
+          <option value="">-- Selecciona una opción --</option>
+          <option value="Villa Nueva">Villa Nueva</option>
+          <option value="Utaltan">Utaltan</option>
+          <option value="CAES">CAES</option>
+          <option value="Liberación">Liberación</option>
+          <option value="San Cristóbal">San Cristóbal</option>
+          <option value="Vista Hermosa">Vista Hermosa</option>
+          <option value="Zona 2">Zona 2</option>
+          <option value="Mazatenango">Mazatenango</option>
+          <option value="Chimaltenango">Chimaltenango</option>
+          <option value="Escuintla">Escuintla</option>
+          <option value="Retalhuleu">Retalhuleu</option>
+          <option value="Puerto San José">Puerto San José</option>
+          <option value="CEDIS">CEDIS</option>
+          <option value="Distrito">Distrito</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="telefono">Número de contacto:</label>
+        <div class="phone-input-container">
+            <select id="codigoPais">
+                <option value="+502" selected>🇬🇹 +502</option>
+                <option value="+504">🇭🇳 +504</option>
+                <option value="+503">🇸🇻 +503</option>
+                <option value="+505">🇳🇮 +505</option>
+                <option value="+506">🇨🇷 +506</option>
+                <option value="+52">🇲🇽 +52</option>
+            </select>
+            <input type="tel" id="telefono" placeholder="Ej: 55551234" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="servicio">Tipo de servicio:</label>
+        <select id="servicio" required>
+          <option value="">-- Selecciona un servicio --</option>
+          <option value="Instalación de software">Instalación de software</option>
+          <option value="Mantenimiento de sistema">Mantenimiento de sistema</option>
+          <option value="Actualización de sistema">Actualización de sistema</option>
+          <option value="Soporte remoto">Soporte remoto</option>
+          <option value="Configuración de red">Configuración de red</option>
+          <option value="Otro">Otro</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="detalle">Detalle del problema/servicio:</label>
+        <textarea id="detalle" placeholder="Ejemplo: Necesito instalación de Office 365"></textarea>
+      </div>
+
+      <button id="btnTicket" class="btn" onclick="generarTicket()">Generar Ticket PDF</button>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Imade IT — Todos los derechos reservados.
+  </footer>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    let datosGenerados = {};
+
+    function generarCodigoFecha() {
+      const ahora = new Date();
+      return ahora.toLocaleString().replace(/[\/: ]/g, '').replace(',', '.').replace(/\s/g, '');
+    }
+
+    function showToast(message, type = "success") {
+      const container = document.getElementById("toastContainer");
+      const toast = document.createElement("div");
+      toast.className = `toast ${type}`;
+      const icon = type === "success" ? "fa-check-circle" : "fa-times-circle";
+      toast.innerHTML = `<i class="fas ${icon}"></i> ${message}`;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 3500);
+    }
+
+    function generarPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ unit: "mm", format: [80, 300] });
+      const imgUrl = "https://tse4.mm.bing.net/th/id/OIP.bXE8Q_tzOc1BHxAgzU2k2AAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3";
+
+      convertirImagenBase64(imgUrl, function (logoBase64, w, h) {
+        const anchoLogo = 18;
+        const altoLogo = (h / w) * anchoLogo;
+        const azul = [2, 44, 79];
+        const gris = [80, 80, 80];
+        
+        // Encabezado
+        doc.setFillColor(...azul);
+        doc.rect(0, 0, -60, 20, "F");
+        doc.addImage(logoBase64, "PNG", 4, 3, anchoLogo, altoLogo);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(13);
+        doc.setTextColor(2, 44, 79);
+        doc.text("Soporte IT", 80 - 5, 10, { align: "right" });
+
+        doc.setDrawColor(...azul);
+        doc.setLineWidth(0.4);
+        doc.line(5, 23, 75, 23);
+
+        let y = 28;
+        doc.setTextColor(...gris);
+        doc.setFontSize(11);
+        doc.text("Ticket de Soporte - Servicios", 40, y, { align: "center" });
+        y += 6;
+
+        doc.setFontSize(9);
+        doc.text(`Fecha: ${datosGenerados.date}`, 5, y); y += 5;
+        doc.text(`Token: ${datosGenerados.id}`, 5, y); y += 6;
+
+        doc.setFont("helvetica", "bold");
+        doc.text("Datos del solicitante:", 5, y);
+        y += 4;
+        doc.setFont("helvetica", "normal");
+        doc.text(`Nombre: ${datosGenerados.solicitante}`, 8, y); y += 4;
+        // CAMBIO: Se agrega el número de contacto al PDF
+        doc.text(`Contacto: ${datosGenerados.contactNumber}`, 8, y); y += 4;
+        doc.text(`Tienda: ${datosGenerados.tienda}`, 8, y); y += 6;
+
+        doc.setFont("helvetica", "bold");
+        doc.text("Servicio solicitado:", 5, y);
+        y += 4;
+        doc.setFont("helvetica", "normal");
+        doc.text(`Servicio: ${datosGenerados.service}`, 8, y); y += 8;
+
+        // CAMBIO: Bloque de prioridad eliminado del PDF
+
+        doc.setTextColor(...gris);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(9);
+        doc.text("Detalle:", 5, y);
+        y += 4;
+        doc.setFont("helvetica", "normal");
+        let detalle = datosGenerados.detail || "No especificado";
+        let lines = doc.splitTextToSize(detalle, 68);
+        doc.text(lines, 8, y);
+        y += lines.length * 4;
+
+        const pageHeight = 300;
+        const footerHeight = 26;
+        if (y + footerHeight > pageHeight) {
+          doc.addPage();
+          y = 10;
+        }
+
+        doc.setDrawColor(180, 180, 180);
+        doc.line(5, y, 75, y);
+        y += 6;
+
+        doc.setFillColor(...azul);
+        doc.rect(0, y, 80, 20, "F");
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(8);
+        doc.setFont("helvetica", "bold");
+        doc.text("Imade IT - Soporte Técnico", 40, y + 6, { align: "center" });
+        doc.setFont("helvetica", "normal");
+        doc.text("Gracias por confiar en nuestros servicios.", 40, y + 11, { align: "center" });
+        doc.text("Ticket generado automáticamente.", 40, y + 16, { align: "center" });
+
+        let nombreLimpio = datosGenerados.solicitante
+          .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+          .replace(/\s+/g, "").toLowerCase();
+
+        const nombreArchivo = `ticket_servicio_${nombreLimpio}_ImadeIT_${datosGenerados.id}.pdf`;
+        doc.save(nombreArchivo);
+      });
+    }
+
+    function convertirImagenBase64(url, callback) {
+      let img = new Image();
+      img.crossOrigin = "Anonymous";
+      img.onload = function () {
+        let canvas = document.createElement("canvas");
+        canvas.width = this.width;
+        canvas.height = this.height;
+        let ctx = canvas.getContext("2d");
+        ctx.drawImage(this, 0, 0);
+        let dataURL = canvas.toDataURL("image/png");
+        callback(dataURL, this.width, this.height);
+      };
+      img.src = url;
+    }
+
+    const btnTicket = document.getElementById("btnTicket");
+    const loading = document.getElementById("loading");
+
+    // CAMBIO: Se elimina la lógica JS para el select de prioridad
+
+    function generarTicket() {
+      const solicitante = document.getElementById('nombreTienda').value.trim();
+      const tienda = document.getElementById('opciones').value;
+      const servicio = document.getElementById('servicio').value;
+      const detalle = document.getElementById('detalle').value.trim();
+      
+      // CAMBIO: Se capturan los nuevos campos de contacto
+      const codigoPais = document.getElementById('codigoPais').value;
+      const telefono = document.getElementById('telefono').value.trim();
+      const numeroCompleto = `${codigoPais} ${telefono}`;
+
+      // CAMBIO: Se actualiza la validación
+      if (!solicitante || !tienda || !servicio || !telefono) {
+        showToast("Por favor completa todos los campos.", "error");
+        return;
+      }
+
+      btnTicket.disabled = true;
+      const token = generarCodigoFecha();
+      
+      // CAMBIO: Se actualiza el objeto de datos
+      datosGenerados = {
+        id: token,
+        solicitante,
+        tienda,
+        contactNumber: numeroCompleto, // Nuevo campo
+        type: 'Servicio',
+        service: servicio,
+        detail: detalle,
+        status: 'Abierto',
+        date: new Date().toLocaleString()
+      };
+
+      let tickets = JSON.parse(localStorage.getItem('tickets')) || [];
+      tickets.push(datosGenerados);
+      localStorage.setItem('tickets', JSON.stringify(tickets));
+
+      generarPDF();
+      showToast("Ticket generado exitosamente.", "success");
+
+      loading.style.display = "flex";
+      setTimeout(() => { window.location.href = "central_dashboard.html"; }, 3000);
+    }
+  </script>
+</body>
+
+</html>

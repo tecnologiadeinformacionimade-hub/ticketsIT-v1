@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Panel de Control</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+         <link rel="icon" type="image/png" href="xpront.png">
+
+    <style>
+        :root {
+            --primary: #022c4f;
+            --primary-light: #60a5fa;
+            --secondary: #1f2937;
+            --text-color: #374151;
+            --muted-color: #9ca3af;
+            --bg-color: #f5f7fa;
+            --surface-color: #ffffff;
+            --border-color: #e5e7eb;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+
+            --shadow: 0 10px 20px rgba(0, 0, 0, .07);
+            --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --radius: 16px;
+            --transition: 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-up {
+            animation: fadeUp 0.6s ease forwards;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: var(--surface-color);
+            border-right: 1px solid var(--border-color);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .sidebar .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 20px;
+            margin-bottom: 50px;
+            color: var(--secondary);
+            text-decoration: none;
+        }
+
+        .sidebar .brand img {
+            width: 130px;
+            height: 80px;
+            border-radius: 0px;
+        }
+
+        .nav-menu {
+            list-style: none;
+            width: 100%;
+            flex-grow: 1;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 14px;
+            border-radius: 10px;
+            color: var(--muted-color);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 8px;
+            transition: all var(--transition);
+        }
+
+        .nav-link:hover {
+            background: #f3f4f6;
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+        }
+
+        .nav-link.active i {
+            color: white;
+        }
+
+        .nav-link i {
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+            transition: color var(--transition);
+        }
+
+        .sidebar-widget-container {
+            /* AJUSTE: Reducido el margen superior para subir el contenedor completo */
+            margin-top: 0px; 
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-clock,
+        .sidebar-calendar {
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+        }
+
+        .sidebar-clock {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+        
+        .sidebar-clock h4 {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .sidebar-calendar h4 {
+            font-size: 1rem;
+            text-align: center;
+            margin: 0;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .calendar-header h4 {
+            margin: 0;
+        }
+
+        .calendar-header button {
+            background: none;
+            border: none;
+            color: var(--muted-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color var(--transition);
+        }
+
+        .calendar-header button:hover {
+            color: var(--primary);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            text-align: center;
+        }
+
+        .calendar-grid .day-name {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--muted-color);
+        }
+
+        .calendar-grid .day {
+            padding: 5px 2px;
+            border-radius: 6px;
+            background-color: var(--surface-color);
+            color: var(--text-color);
+            font-weight: 500;
+            transition: background-color var(--transition);
+            font-size: 0.85rem;
+        }
+
+        .calendar-grid .day.today {
+            background-color: var(--primary);
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(2, 44, 79, 0.2);
+        }
+
+        .calendar-grid .day:not(.empty):hover {
+            background-color: #e5e7eb;
+        }
+
+        .calendar-grid .empty {
+            visibility: hidden;
+        }
+
+        .main-wrapper {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-header {
+            background: var(--surface-color);
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header-greeting {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-greeting h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .header-greeting p {
+            color: var(--muted-color);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: grid;
+            place-items: center;
+            font-weight: 600;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--muted-color);
+            cursor: pointer;
+            transition: color var(--transition);
+        }
+
+        .logout-btn:hover {
+            color: var(--danger);
+        }
+
+        .main-content {
+            padding: 40px;
+        }
+
+        .content-section {
+            background: var(--surface-color);
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .quick-actions {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all var(--transition);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--surface-color);
+            color: var(--text-color);
+            padding: 12px 25px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all var(--transition);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .announcement-list {
+            display: grid;
+            gap: 20px;
+            max-height: 250px;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+
+        .announcement-list.expanded {
+            max-height: 1000px;
+        }
+
+        .announcement-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background-color: var(--bg-color);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .icon-announcement {
+            font-size: 24px;
+            color: var(--info);
+            padding-top: 5px;
+        }
+
+        .announcement-content h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 5px;
+        }
+
+        .announcement-content p {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            margin-bottom: 5px;
+        }
+
+        .announcement-date {
+            font-size: 0.8rem;
+            color: var(--muted-color);
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <a href="https://www.imadeit.com" class="brand" target="_blank">
+            <img src="https://tse4.mm.bing.net/th/id/OIP.bXE8Q_tzOc1BHxAgzU2k2AAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Logo Imade IT">
+        </a>
+        <nav class="nav-menu">
+            <a href="#" class="nav-link active"><i class="fas fa-home"></i> Panel Principal</a>
+            <a href="index2.html" class="nav-link"><i class="fas fa-plus-circle"></i> Crear Ticket</a>
+            <a href="ticket_history.html" class="nav-link"><i class="fas fa-history"></i> Historial</a>
+        </nav>
+
+        <div class="sidebar-widget-container">
+            <div class="sidebar-clock">
+                <h4>Hora del Sistema</h4>
+                <span id="currentTime"></span>
+            </div>
+            <div class="sidebar-calendar">
+                <div class="calendar-header">
+                    <button id="prevMonthBtn"><i class="fas fa-chevron-left"></i></button>
+                    <h4 id="monthYear"></h4>
+                    <button id="nextMonthBtn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="calendar-grid" id="calendarGrid">
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        <header class="main-header fade-up">
+            <div class="header-greeting">
+                <h1>Hola, <span id="userNameHeader"></span>!</h1>
+                <p>Aquí tienes un resumen de tu actividad. Hoy es <span id="currentDate"></span>.</p>
+            </div>
+            <div class="header-user">
+                <button onclick="logout()" class="logout-btn" title="Cerrar Sesión"><i class="fas fa-sign-out-alt"></i></button>
+                <div class="user-avatar" id="userAvatar">U</div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="quick-actions fade-up">
+                <a href="index2.html" class="btn-primary">
+                    <i class="fas fa-plus-circle"></i>
+                    Crear Nuevo Ticket
+                </a>
+                <a href="ticket_history.html" class="btn-secondary">
+                    <i class="fas fa-history"></i>
+                    Ver Historial Completo
+                </a>
+            </section>
+
+            <section class="content-section announcement-section fade-up" style="animation-delay: 0.4s;">
+                <div class="section-header">
+                    <h2>Noticias y Anuncios de IT</h2>
+                    <button id="toggleAnnouncementsBtn" class="btn-secondary">Ver más <i class="fas fa-arrow-down"></i></button>
+                </div>
+                <div class="announcement-list" id="announcementList">
+                    <div class="announcement-card">
+                        <i class="fas fa-tools icon-announcement"></i>
+                        <div class="announcement-content">
+                            <h3>Aviso de Mantenimiento / Actualización</h3>
+                            <p>Estar atento al grupo de "Avisos Imade" en el se notificara cuando SmartBit requiera que salgan de sistema.</p>
+                            <span class="announcement-date">1 de octubre, 2025</span>
+                        </div>
+                    </div>
+                    <div class="announcement-card">
+                        <i class="fas fa-shield-alt icon-announcement"></i>
+                        <div class="announcement-content">
+                            <h3>Recordatorio de políticas contra el phishing</h3>
+                            <p>Recuerde no abrír links de dudosa procedencia, podría estar vulnerable a ataques ciberneticos para robar su información.</p>
+                            <span class="announcement-date">17 de septiembre, 2025</span>
+                        </div>
+                    </div>
+                    <div class="announcement-card">
+                        <i class="fas fa-info-circle icon-announcement"></i>
+                        <div class="announcement-content">
+                            <h3>Políticas del departamento de IT</h3>
+                            <p>Un solo ticket es suficiente para procesar su solicitud.
+El personal de IT se pondrá en contacto con usted para brindarle el soporte correspondiente..</p>
+                            <span class="announcement-date">15 de septiembre, 2025</span>
+                        </div>
+                    </div>
+                    <div class="announcement-card">
+                        <i class="fas fa-lightbulb icon-announcement"></i>
+                        <div class="announcement-content">
+                            <h3>Consejo</h3>
+                            <p>Cierra las aplicaciones que no estés usando y borra los archivos temporales para mejorar el rendimiento. Si el problema persiste, crea un ticket.</p>
+                            <span class="announcement-date">10 de septiembre, 2025</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function logout() {
+            // Se ha comentado esta línea para que las credenciales no se borren al cerrar sesión.
+            // localStorage.clear();
+            window.location.href = 'login.html';
+        }
+
+        function setDate() {
+            const dateElement = document.getElementById('currentDate');
+            const today = new Date();
+            const options = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            };
+            dateElement.textContent = today.toLocaleDateString('es-ES', options);
+        }
+
+        function updateClock() {
+            const clockElement = document.getElementById('currentTime');
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+        }
+        
+        let currentCalendarDate = new Date();
+
+        function generateCalendar(date) {
+            const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+            const dayNames = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
+            
+            const today = new Date();
+            const month = date.getMonth();
+            const year = date.getFullYear();
+
+            const firstDayOfMonth = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            const monthYearElement = document.getElementById('monthYear');
+            monthYearElement.textContent = `${monthNames[month]} ${year}`;
+
+            const calendarGrid = document.getElementById('calendarGrid');
+            calendarGrid.innerHTML = '';
+
+            dayNames.forEach(day => {
+                const dayNameElement = document.createElement('div');
+                dayNameElement.classList.add('day-name');
+                dayNameElement.textContent = day;
+                calendarGrid.appendChild(dayNameElement);
+            });
+
+            for (let i = 0; i < firstDayOfMonth; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.classList.add('empty');
+                calendarGrid.appendChild(emptyDay);
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.classList.add('day');
+                dayElement.textContent = day;
+                if (day === today.getDate() && today.getMonth() === month && today.getFullYear() === year) {
+                    dayElement.classList.add('today');
+                }
+                calendarGrid.appendChild(dayElement);
+            }
+        }
+
+        window.onload = function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const currentUserName = localStorage.getItem('currentUserName');
+
+            if (!isLoggedIn || !currentUserName) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            document.getElementById('userNameHeader').textContent = currentUserName;
+
+            const userAvatar = document.getElementById('userAvatar');
+            if (currentUserName.length > 0) {
+                userAvatar.textContent = currentUserName.charAt(0).toUpperCase();
+            }
+
+            // Llamar a las funciones de fecha, reloj y calendario al cargar la página
+            setDate();
+            updateClock();
+            setInterval(updateClock, 1000); // Actualiza el reloj cada segundo
+
+            generateCalendar(currentCalendarDate);
+
+            document.getElementById('prevMonthBtn').addEventListener('click', () => {
+                currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
+                generateCalendar(currentCalendarDate);
+            });
+
+            document.getElementById('nextMonthBtn').addEventListener('click', () => {
+                currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
+                generateCalendar(currentCalendarDate);
+            });
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleBtn = document.getElementById('toggleAnnouncementsBtn');
+            const announcementList = document.getElementById('announcementList');
+
+            if(toggleBtn) {
+                toggleBtn.addEventListener('click', () => {
+                    const isExpanded = announcementList.classList.toggle('expanded');
+                    const icon = toggleBtn.querySelector('i');
+                    const text = isExpanded ? 'Ver menos' : 'Ver más';
+                    const iconClass = isExpanded ? 'fa-arrow-up' : 'fa-arrow-down';
+
+                    toggleBtn.innerHTML = `${text} <i class="fas ${iconClass}"></i>`;
+                });
+            }
+        });
+    </script>
+</body>
+</html>

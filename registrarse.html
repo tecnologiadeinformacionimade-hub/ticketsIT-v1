@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Imade IT - Registrarse</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #f5f7fa;
+            --surface: #ffffff;
+            --text: #1a1a1a;
+            --muted: #6b7280;
+            --primary: #022c4f;
+            --primary-2: #06b6d4;
+            --radius: 14px;
+            --shadow: 0 10px 30px rgba(0, 0, 0, .1);
+            --glow: 0 0 15px rgba(59, 130, 246, 0.6);
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --success: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            transition: background 0.4s ease, color 0.4s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.8s ease forwards;
+            top: 0;
+            z-index: 50;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav {
+            background: var(--surface);
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .brand .badge {
+            background: #ffffff;
+            width: 50px;
+            height: 50px;
+            display: grid;
+            place-items: center;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .brand .badge img {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+        }
+
+        .nav .actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 8px 14px;
+            border: none;
+            background: var(--primary);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .btn:hover {
+            box-shadow: var(--glow);
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards;
+            animation-delay: 0.3s;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            max-height: 400px;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+            transition: transform 0.3s ease;
+            color: black;
+        }
+
+        .hero-image img:hover {
+            transform: translateY(-5px);
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .card {
+            background: var(--surface);
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .form-group input,
+        .form-group select {
+            display: block;
+            font-size: 16px;
+            width: 100%;
+            padding: 10px 40px 10px 10px;
+            border-radius: 8px;
+            border: 1px solid var(--muted);
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+            transition: color 0.3s ease;
+        }
+
+        .toggle-password:hover {
+            color: var(--primary);
+        }
+
+        .capslock-warning {
+            display: none;
+            color: var(--warning);
+            font-size: 12px;
+            margin-top: 5px;
+            background: rgba(245, 158, 11, 0.1);
+            padding: 5px 10px;
+            border-radius: 4px;
+            border-left: 3px solid var(--warning);
+        }
+
+        .capslock-warning.active {
+            display: block;
+        }
+
+        .capslock-warning i {
+            margin-right: 5px;
+        }
+
+        .password-match {
+            display: none;
+            color: var(--danger);
+            font-size: 12px;
+            margin-top: 5px;
+            background: rgba(239, 68, 68, 0.1);
+            padding: 5px 10px;
+            border-radius: 4px;
+            border-left: 3px solid var(--danger);
+        }
+
+        .password-match.active {
+            display: block;
+        }
+
+        .password-match i {
+            margin-right: 5px;
+        }
+
+        .form-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .form-actions .btn {
+            width: 100%;
+        }
+
+        .link-text {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .link-text a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .link-text a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: auto;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .hero-image {
+                order: -1;
+                max-width: 250px;
+            }
+
+            .hero-content {
+                max-width: 100%;
+            }
+        }
+
+        .notification-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .notification-modal-content {
+            background-color: var(--surface);
+            margin: auto;
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+        }
+
+        .notification-modal-content h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .notification-modal-content p {
+            margin-bottom: 20px;
+            color: var(--text);
+        }
+
+        .notification-modal-content .btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .notification-modal-content .btn.error {
+            background-color: var(--danger);
+        }
+
+        .notification-modal-content .btn.success {
+            background-color: var(--success);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="nav fade-up" style="animation-delay: 0.1s;">
+        <div class="brand">
+            <div class="badge">
+                <img src="logo.png" alt="Logo Imade IT" onerror="this.style.display='none'">
+            </div>
+            Imade IT
+        </div>
+        <div class="actions">
+        </div>
+    </nav>
+
+    <main class="hero fade-up" style="animation-delay: 0.2s;">
+        <div class="hero-image">
+            <img src="https://placehold.co/600x400/transparent/000000?text=Bienvenido&font=montserrat"
+                alt="Ilustración moderna de registro digital con formulario flotante, iconos de usuario y elementos de interfaz en diseño limpio y profesional"
+                onerror="this.style.display='none'">
+        </div>
+
+        <div class="hero-content">
+            <section class="card">
+                <h2>Registrarse</h2>
+
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="name">Nombre Completo:</label>
+                        <input type="text" id="name" placeholder="Tu Nombre" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico:</label>
+                        <input type="email" id="email" placeholder="tu@ejemplo.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Contraseña:</label>
+                        <div class="password-container">
+                            <input type="password" id="password" placeholder="********" required
+                                onkeyup="checkCapsLock(event)">
+                            <button type="button" class="toggle-password" onclick="togglePasswordVisibility('password')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="capslock-warning" id="capslockWarning">
+                            <i class="fas fa-exclamation-triangle"></i> Bloq Mayús activado
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirmar Contraseña:</label>
+                        <div class="password-container">
+                            <input type="password" id="confirmPassword" placeholder="********" required
+                                onkeyup="checkPasswordMatch()">
+                            <button type="button" class="toggle-password" onclick="togglePasswordVisibility('confirmPassword')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="password-match" id="passwordMatchWarning">
+                            <i class="fas fa-times-circle"></i> Las contraseñas no coinciden
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="userRole" value="user">
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn">Crear Cuenta</button>
+                    </div>
+                </form>
+                <p class="link-text">¿Ya tienes cuenta? <a href="login.html">Inicia Sesión aquí</a></p>
+            </section>
+        </div>
+    </main>
+
+    <footer class="fade-up" style="animation-delay: 0.3s;">
+        © <span id="year"></span> Imade IT — Todos los derechos reservados.
+    </footer>
+
+    <div id="notificationModal" class="notification-modal">
+        <div class="notification-modal-content">
+            <h3 id="notificationTitle"></h3>
+            <p id="notificationMessage"></p>
+            <button id="notificationCloseBtn" class="btn">Aceptar</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        function showNotification(title, message, type = 'info', callback = null) {
+            const modal = document.getElementById('notificationModal');
+            const titleElement = document.getElementById('notificationTitle');
+            const messageElement = document.getElementById('notificationMessage');
+            const closeBtn = document.getElementById('notificationCloseBtn');
+
+            titleElement.textContent = title;
+            messageElement.textContent = message;
+            closeBtn.className = 'btn';
+            if (type === 'error') {
+                closeBtn.classList.add('error');
+            } else if (type === 'success') {
+                closeBtn.classList.add('success');
+            }
+
+            modal.style.display = 'flex';
+
+            closeBtn.onclick = () => {
+                modal.style.display = 'none';
+                if (callback) callback();
+            };
+
+            modal.onclick = (event) => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                    if (callback) callback();
+                }
+            };
+        }
+
+        function togglePasswordVisibility(inputId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleButton = passwordInput.nextElementSibling;
+            const icon = toggleButton.querySelector('i');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else {
+                passwordInput.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        }
+
+        function checkCapsLock(event) {
+            const capsLockWarning = document.getElementById('capslockWarning');
+            const isCapsLockOn = event.getModifierState && event.getModifierState('CapsLock');
+
+            if (isCapsLockOn) {
+                capsLockWarning.classList.add('active');
+            } else {
+                capsLockWarning.classList.remove('active');
+            }
+        }
+
+        function checkPasswordMatch() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const passwordMatchWarning = document.getElementById('passwordMatchWarning');
+
+            if (confirmPassword && password !== confirmPassword) {
+                passwordMatchWarning.classList.add('active');
+            } else {
+                passwordMatchWarning.classList.remove('active');
+            }
+        }
+
+        document.addEventListener('keyup', function(event) {
+            if (event.target.type === 'password') {
+                checkCapsLock(event);
+            }
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                document.getElementById('passwordMatchWarning').classList.add('active');
+                showNotification('Error de Registro', 'Las contraseñas no coinciden.', 'error');
+                return;
+            }
+
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+
+            if (users.some(user => user.email.toLowerCase() === email.toLowerCase())) {
+                showNotification('Error de Registro', 'Este correo electrónico ya está registrado. Por favor, inicia sesión o usa otro correo.', 'error');
+                return;
+            }
+
+            const newUser = {
+                name,
+                email,
+                password,
+                role: 'user',
+                createdAt: new Date().toLocaleString()
+            };
+
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+
+            showNotification('Registro Exitoso', '¡Cuenta de usuario creada! Ahora puedes iniciar sesión.', 'success', () => {
+                window.location.href = 'login.html';
+            });
+        });
+
+    </script>
+</body>
+
+</html>

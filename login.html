@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imade IT - Acceso a la Plataforma</title>
+
+    <link rel="icon" type="image/png" href="xpront.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- VARIABLES CSS --- */
+        :root {
+            --font-family: 'Poppins', 'Segoe UI', Roboto, Arial, sans-serif;
+            --bg-primary: #f3f5f7;
+            --bg-surface: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-muted: #6b7280;
+            --border-color: #d1d5db;
+            --c-primary: #022c4f;
+            --c-primary-dark: #02223c;
+            --c-primary-text: #ffffff;
+            --c-secondary: #e5e7eb;
+            --c-secondary-hover: #d1d5db;
+            --c-secondary-text: #374151;
+            --c-success: #16a34a;
+            --c-danger: #dc2626;
+            --c-warning: #f97316;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --shadow-md: 0 4px 10px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -2px rgba(0, 0, 0, 0.03);
+            --shadow-lg: 0 10px 20px -5px rgba(0, 0, 0, 0.07), 0 8px 8px -5px rgba(0, 0, 0, 0.04);
+            --glow-primary: 0 0 15px rgba(2, 44, 79, 0.3);
+        }
+
+        /* --- RESET Y ESTILOS GENERALES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; overflow-x: hidden; }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+        }
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .is-hidden { display: none !important; }
+
+        /* --- VISTA PRINCIPAL DE LOGIN --- */
+        .main-view {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .main-view.is-hidden {
+            opacity: 0;
+            transform: scale(0.98);
+            pointer-events: none;
+        }
+
+        /* --- ANIMACIONES --- */
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.7s ease-out forwards;
+        }
+
+        /* --- ENCABEZADO --- */
+        .header {
+            background-color: var(--bg-surface);
+            box-shadow: var(--shadow-md);
+            padding: 1rem 0;
+        }
+        .header__container { display: flex; justify-content: space-between; align-items: center; }
+        .brand {
+            display: flex; align-items: center; gap: 12px;
+            font-weight: 600; font-size: 1.25rem;
+        }
+        .brand__badge {
+            background-color: var(--bg-primary);
+            width: 50px; height: 50px;
+            display: grid; place-items: center;
+            border-radius: var(--radius-sm);
+        }
+        .brand__badge img { width: 38px; height: 38px; object-fit: contain; }
+
+        /* --- SECCIÓN HERO --- */
+        .hero {
+            display: flex; align-items: center; justify-content: center;
+            gap: 50px; flex-grow: 1; padding: 40px 0;
+        }
+        .hero__media { flex: 1; text-align: center; }
+        .hero__title {
+            font-size: 3rem; font-weight: 700;
+            color: var(--c-primary);
+            margin-bottom: 25px;
+        }
+        .hero__video {
+            width: 100%; max-width: 280px; aspect-ratio: 1 / 1;
+            object-fit: cover; border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+        .hero__content { flex: 1; max-width: 450px; }
+
+        /* --- TARJETA (CARD) --- */
+        .card {
+            background: var(--bg-surface);
+            padding: 40px; border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md); width: 100%;
+        }
+        .card__title {
+            margin-bottom: 25px; text-align: center;
+            font-size: 1.75rem; font-weight: 600;
+        }
+        .card__link {
+            text-align: center; margin-top: 20px;
+            font-size: 0.9rem; color: var(--text-muted);
+        }
+        .card__link a {
+            color: var(--c-primary); text-decoration: none; font-weight: 600;
+        }
+        .card__link a:hover { text-decoration: underline; }
+
+        /* --- FORMULARIOS --- */
+        .form__group { margin-bottom: 20px; }
+        .form__label {
+            display: block; margin-bottom: 8px; font-size: 0.9rem;
+            font-weight: 600; color: var(--text-muted);
+        }
+        .form__input {
+            font-size: 1rem; width: 100%; padding: 12px 15px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            background: var(--bg-primary); color: var(--text-primary);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .form__input:focus {
+            outline: none; border-color: var(--c-primary);
+            box-shadow: 0 0 0 3px rgba(2, 44, 79, 0.2);
+        }
+        .form__password-wrapper { position: relative; }
+        .form__input[type="password"] { padding-right: 45px; }
+        .form__toggle-password {
+            position: absolute; right: 5px; top: 50%;
+            transform: translateY(-50%);
+            background: none; border: none; color: var(--text-muted);
+            cursor: pointer; padding: 8px; border-radius: 50%;
+            width: 36px; height: 36px; display: grid; place-items: center;
+        }
+        .form__toggle-password:hover { color: var(--c-primary); background-color: rgba(2, 44, 79, 0.1); }
+        .form__capslock-warning { display: none; color: var(--c-warning); font-size: 0.8rem; margin-top: 8px; }
+        .form__capslock-warning.is-active { display: block; }
+        .form__error-message { color: var(--c-danger); font-size: 0.8rem; margin-top: 5px; min-height: 1.2em; }
+        .form__actions { display: flex; flex-direction: column; gap: 10px; margin-top: 25px; }
+
+        /* --- BOTONES --- */
+        .btn {
+            padding: 12px 18px; font-size: 1rem; font-weight: 600;
+            border: none; border-radius: var(--radius-sm);
+            cursor: pointer; transition: 0.3s ease; width: 100%;
+        }
+        .btn:disabled { cursor: not-allowed; opacity: 0.6; }
+        .btn--primary { background: var(--c-primary); color: var(--c-primary-text); }
+        .btn--primary:not(:disabled):hover { background: var(--c-primary-dark); box-shadow: var(--glow-primary); transform: translateY(-2px); }
+        .btn--secondary { background: var(--c-secondary); color: var(--c-secondary-text); }
+        .btn--secondary:not(:disabled):hover { background: var(--c-secondary-hover); }
+        .btn--link { background: none; color: var(--c-primary); font-size: 0.85rem; padding: 0; width: auto; text-align: right; }
+        .btn--link:not(:disabled):hover { text-decoration: underline; }
+
+        /* --- FOOTER --- */
+        .footer {
+            text-align: center; padding: 25px; color: var(--text-muted);
+            font-size: 0.85rem; margin-top: auto;
+        }
+
+        /* --- VISTA DE RECUPERACIÓN (NUEVO) --- */
+        .recovery-view {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: var(--bg-primary);
+            z-index: 1001;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            transform: scale(1.02);
+        }
+        .recovery-view.is-active {
+            opacity: 1;
+            pointer-events: all;
+            transform: scale(1);
+        }
+        .recovery-container { width: 100%; max-width: 450px; padding: 20px; }
+        .recovery-step { transition: transform 0.4s ease, opacity 0.4s ease; }
+        .recovery-step.is-hidden { position: absolute; opacity: 0; transform: translateX(100%); pointer-events: none; }
+        .recovery-step p { color: var(--text-muted); text-align: center; margin-bottom: 20px; font-size: 0.9rem; line-height: 1.5; }
+        .pin-info { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; padding: 0 5px; }
+        #pinTimer { font-size: 0.85rem; color: var(--c-warning); font-weight: 600; }
+        
+        /* --- REQUISITOS DE CONTRASEÑA --- */
+        #passwordRequirements {
+            list-style: none; margin: 15px 0 0 0; font-size: 0.85rem;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+        }
+        #passwordRequirements li { color: var(--text-muted); transition: color 0.3s; }
+        #passwordRequirements li::before {
+            font-family: "Font Awesome 5 Free"; font-weight: 900;
+            content: "\f00d"; color: var(--c-danger); margin-right: 8px;
+        }
+        #passwordRequirements li.valid { color: var(--c-success); }
+        #passwordRequirements li.valid::before { content: "\f00c"; color: var(--c-success); }
+
+        /* --- TOAST & LOADER --- */
+        .toast {
+            position: fixed; bottom: 20px; right: 20px;
+            background: var(--bg-surface); padding: 15px 20px;
+            border-radius: var(--radius-md); box-shadow: var(--shadow-lg);
+            border-left: 4px solid var(--c-primary);
+            opacity: 0; transform: translateX(100%);
+            min-width: 320px; z-index: 10004;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+        .toast.is-active { opacity: 1; transform: translateX(0); }
+        .toast.toast--success { border-color: var(--c-success); }
+        .toast.toast--danger { border-color: var(--c-danger); }
+        .toast__header { font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+        .toast__body { font-size: 14px; }
+        .toast__close { background: none; border: none; cursor: pointer; font-size: 16px; color: var(--text-muted); }
+        .loader-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(243, 245, 247, 0.8); /* Fondo semi-transparente que coincide con el body */
+            display: flex; justify-content: center; align-items: center;
+            z-index: 10003;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .loader-overlay.is-active { opacity: 1; pointer-events: all; }
+        .loader {
+            border: 6px solid var(--border-color);
+            border-top: 6px solid var(--c-primary);
+            border-radius: 50%; width: 50px; height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* --- MEDIA QUERIES --- */
+        @media(max-width: 768px) {
+            .hero { flex-direction: column; gap: 30px; }
+            .hero__media { order: -1; }
+            .hero__video { max-width: 200px; }
+            .hero__title { font-size: 2.5rem; }
+            .card, .recovery-container .card { padding: 30px 25px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="mainView" class="main-view">
+        <header class="header fade-up">
+            <div class="container header__container">
+                <div class="brand">
+                    <div class="brand__badge"><img src="logo.png" alt="Logo Imade IT"></div>
+                    <span>Imade IT</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="container hero fade-up" style="animation-delay: 0.2s;">
+            <div class="hero__media">
+                <h1 class="hero__title">Bienvenido</h1>
+                <video class="hero__video" src="abduscan.mp4" autoplay muted loop playsinline></video>
+            </div>
+
+            <div class="hero__content">
+                <div class="card">
+                    <h2 class="card__title">Iniciar Sesión</h2>
+                    <form id="loginForm" novalidate>
+                        <div class="form__group">
+                            <label for="email" class="form__label">Correo Electrónico</label>
+                            <input type="email" id="email" class="form__input" placeholder="tu@ejemplo.com" required>
+                            <small class="form__error-message"></small>
+                        </div>
+
+                        <div class="form__group">
+                            <label for="password" class="form__label">Contraseña</label>
+                            <div class="form__password-wrapper">
+                                <input type="password" id="password" class="form__input" placeholder="••••••••" required>
+                                <button type="button" class="form__toggle-password" title="Mostrar/Ocultar contraseña"><i class="fas fa-eye"></i></button>
+                            </div>
+                            <div class="form__capslock-warning" id="capslockWarning"><i class="fas fa-exclamation-triangle"></i> Bloq Mayús activado</div>
+                            <small class="form__error-message"></small>
+                        </div>
+
+                        <div class="form__actions">
+                            <button type="submit" class="btn btn--primary">Acceder</button>
+                            <button type="button" class="btn btn--secondary" id="forgotPasswordBtn">Olvidé mi contraseña</button>
+                        </div>
+                    </form>
+                    <p class="card__link">¿No tienes cuenta? <a href="registrarse.html">Regístrate aquí</a></p>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer fade-up" style="animation-delay: 0.4s;">
+            <p>© <span id="year"></span> Imade IT — Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+
+    <div id="recoveryView" class="recovery-view">
+        <div class="recovery-container">
+            <div class="card">
+                <div class="recovery-step" id="stepEmail" data-step="1">
+                    <h3 class="card__title">Recuperar Contraseña</h3>
+                    <p>Ingresa tu correo. Te enviaremos un código de 6 dígitos para verificar tu identidad.</p>
+                    <div class="form__group">
+                        <label for="recoveryEmail" class="form__label">Correo Electrónico</label>
+                        <input type="email" id="recoveryEmail" class="form__input" placeholder="tu@ejemplo.com">
+                        <small class="form__error-message"></small>
+                    </div>
+                    <div class="form__actions">
+                        <button id="sendPinBtn" class="btn btn--primary">Enviar Código</button>
+                    </div>
+                </div>
+
+                <div class="recovery-step is-hidden" id="stepToken" data-step="2">
+                    <h3 class="card__title">Verifica tu Correo</h3>
+                    <p>Revisa la bandeja de entrada de <strong id="userEmailForPin"></strong> e ingresa el código.</p>
+                    <div class="form__group">
+                        <label for="pinInput" class="form__label">Código de 6 dígitos</label>
+                        <input type="text" id="pinInput" class="form__input" maxlength="6" pattern="\d{6}" placeholder="123456">
+                        <small class="form__error-message"></small>
+                    </div>
+                    <div class="pin-info">
+                        <span id="pinTimer">Expira en: 05:00</span>
+                        <button id="resendPinBtn" class="btn btn--link" disabled>Reenviar código</button>
+                    </div>
+                    <div class="form__actions">
+                        <button id="verifyPinBtn" class="btn btn--primary">Verificar</button>
+                    </div>
+                </div>
+
+                <div class="recovery-step is-hidden" id="stepNewPassword" data-step="3">
+                    <h3 class="card__title">Crear Nueva Contraseña</h3>
+                    <p>Tu nueva contraseña debe ser segura y fácil de recordar.</p>
+                    <div class="form__group">
+                        <label for="newPassword" class="form__label">Nueva Contraseña</label>
+                        <div class="form__password-wrapper">
+                            <input type="password" id="newPassword" class="form__input" placeholder="••••••••">
+                            <button type="button" class="form__toggle-password" title="Mostrar/Ocultar contraseña"><i class="fas fa-eye"></i></button>
+                        </div>
+                    </div>
+                    <div class="form__group">
+                        <label for="confirmPassword" class="form__label">Confirmar Nueva Contraseña</label>
+                        <input type="password" id="confirmPassword" class="form__input" placeholder="••••••••">
+                        <small class="form__error-message"></small>
+                    </div>
+                    <ul id="passwordRequirements">
+                        <li id="req-length">8+ caracteres</li><li id="req-uppercase">1 mayúscula</li>
+                        <li id="req-lowercase">1 minúscula</li><li id="req-number">1 número</li>
+                        <li id="req-symbol">1 símbolo</li>
+                    </ul>
+                    <div class="form__actions">
+                        <button id="updatePasswordBtn" class="btn btn--primary">Actualizar Contraseña</button>
+                    </div>
+                </div>
+                
+                <p class="card__link"><a href="#" id="cancelRecoveryBtn">Cancelar y volver al inicio de sesión</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <div class="toast__header">
+            <span id="toastTitle"></span>
+            <button class="toast__close" onclick="closeToast()">&times;</button>
+        </div>
+        <div id="toastMessage" class="toast__body"></div>
+    </div>
+
+    <div class="loader-overlay" id="loaderOverlay">
+        <div class="loader"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const DOMElements = {
+                mainView: document.getElementById('mainView'),
+                loginForm: document.getElementById('loginForm'),
+                emailInput: document.getElementById('email'),
+                passwordInput: document.getElementById('password'),
+                capslockWarning: document.getElementById('capslockWarning'),
+                
+                // Nuevos elementos para la vista de recuperación
+                recoveryView: document.getElementById('recoveryView'),
+                showRecoveryBtn: document.getElementById('forgotPasswordBtn'),
+                hideRecoveryBtn: document.getElementById('cancelRecoveryBtn'),
+                
+                recoverySteps: document.querySelectorAll('.recovery-step'),
+                recoveryEmailInput: document.getElementById('recoveryEmail'),
+                sendPinBtn: document.getElementById('sendPinBtn'),
+                userEmailForPin: document.getElementById('userEmailForPin'),
+                pinInput: document.getElementById('pinInput'),
+                pinTimer: document.getElementById('pinTimer'),
+                resendPinBtn: document.getElementById('resendPinBtn'),
+                verifyPinBtn: document.getElementById('verifyPinBtn'),
+                newPasswordInput: document.getElementById('newPassword'),
+                confirmPasswordInput: document.getElementById('confirmPassword'),
+                updatePasswordBtn: document.getElementById('updatePasswordBtn'),
+                passwordRequirements: {
+                    length: document.getElementById('req-length'),
+                    uppercase: document.getElementById('req-uppercase'),
+                    lowercase: document.getElementById('req-lowercase'),
+                    number: document.getElementById('req-number'),
+                    symbol: document.getElementById('req-symbol'),
+                },
+                loader: document.getElementById('loaderOverlay'),
+                toast: document.getElementById('toast'),
+                toastTitle: document.getElementById('toastTitle'),
+                toastMessage: document.getElementById('toastMessage'),
+                yearSpan: document.getElementById('year'),
+                togglePasswordBtns: document.querySelectorAll('.form__toggle-password'),
+            };
+
+            let state = {
+                recoveryEmail: '', toastTimeout: null, pinTimerInterval: null, resendPinTimeout: null,
+            };
+
+            const fakeApiCall = (delay = 1000) => new Promise(resolve => setTimeout(resolve, delay));
+            const showLoader = () => DOMElements.loader.classList.add('is-active');
+            const hideLoader = () => DOMElements.loader.classList.remove('is-active');
+            
+            const showToast = (title, message, type = 'info') => {
+                clearTimeout(state.toastTimeout);
+                DOMElements.toastTitle.textContent = title;
+                DOMElements.toastMessage.innerHTML = message;
+                DOMElements.toast.className = `toast is-active toast--${type}`;
+                new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play().catch(e => {});
+                state.toastTimeout = setTimeout(() => DOMElements.toast.classList.remove('is-active'), 8000);
+            };
+
+            window.closeToast = () => {
+                clearTimeout(state.toastTimeout);
+                DOMElements.toast.classList.remove('is-active');
+            };
+
+            const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            
+            const showError = (inputElement, message) => {
+                const formGroup = inputElement.closest('.form__group, .recovery-step');
+                const errorElement = formGroup.querySelector('.form__error-message');
+                if(errorElement) errorElement.textContent = message;
+            };
+            const clearError = (inputElement) => {
+                const formGroup = inputElement.closest('.form__group, .recovery-step');
+                const errorElement = formGroup.querySelector('.form__error-message');
+                if(errorElement) errorElement.textContent = '';
+            };
+
+            const init = () => {
+                DOMElements.yearSpan.textContent = new Date().getFullYear();
+                setupEventListeners();
+            };
+
+            const setupEventListeners = () => {
+                DOMElements.loginForm.addEventListener('submit', handleLoginSubmit);
+                DOMElements.passwordInput.addEventListener('keyup', handleCapsLock);
+                DOMElements.togglePasswordBtns.forEach(btn => btn.addEventListener('click', handleTogglePasswordVisibility));
+
+                // Listeners para mostrar/ocultar la vista de recuperación
+                DOMElements.showRecoveryBtn.addEventListener('click', showRecoveryView);
+                DOMElements.hideRecoveryBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    hideRecoveryView();
+                });
+
+                // Listeners de los pasos de recuperación
+                DOMElements.sendPinBtn.addEventListener('click', handleSendPin);
+                DOMElements.resendPinBtn.addEventListener('click', handleSendPin);
+                DOMElements.verifyPinBtn.addEventListener('click', handleVerifyPin);
+                DOMElements.updatePasswordBtn.addEventListener('click', handleUpdatePassword);
+                
+                const inputsToClear = [DOMElements.emailInput, DOMElements.passwordInput, DOMElements.recoveryEmailInput, DOMElements.pinInput, DOMElements.newPasswordInput, DOMElements.confirmPasswordInput];
+                inputsToClear.forEach(input => input.addEventListener('input', () => clearError(input)));
+                DOMElements.newPasswordInput.addEventListener('input', handlePasswordRequirements);
+            };
+
+            const handleLoginSubmit = async (e) => {
+                e.preventDefault();
+                const email = DOMElements.emailInput.value.trim().toLowerCase();
+                const password = DOMElements.passwordInput.value;
+                if (!validateEmail(email)) return showError(DOMElements.emailInput, 'Por favor, ingresa un correo válido.');
+                if (!password) return showError(DOMElements.passwordInput, 'Por favor, ingresa tu contraseña.');
+                
+                showLoader();
+                await fakeApiCall(500);
+                const users = JSON.parse(localStorage.getItem('users')) || [];
+                const user = users.find(u => u.email.toLowerCase() === email && u.password === password);
+                hideLoader();
+
+                if (user) {
+                    localStorage.setItem('isLoggedIn', 'true');
+                    showToast('Inicio de Sesión Exitoso', '¡Bienvenido de nuevo! Serás redirigido...', 'success');
+                    setTimeout(() => window.location.href = 'central_dashboard.html', 2000);
+                } else {
+                    showToast('Error de Autenticación', 'El correo o la contraseña son incorrectos.', 'danger');
+                    showError(DOMElements.passwordInput, 'Verifica tus credenciales.');
+                }
+            };
+
+            const handleTogglePasswordVisibility = (e) => {
+                const button = e.currentTarget;
+                const wrapper = button.closest('.form__password-wrapper');
+                if (!wrapper) return;
+                const input = wrapper.querySelector('input');
+                const icon = button.querySelector('i');
+                const isPassword = input.type === 'password';
+                input.type = isPassword ? 'text' : 'password';
+                icon.className = `fas ${isPassword ? 'fa-eye-slash' : 'fa-eye'}`;
+            };
+
+            const handleCapsLock = (e) => {
+                DOMElements.capslockWarning.classList.toggle('is-active', e.getModifierState && e.getModifierState('CapsLock'));
+            };
+
+            // --- NUEVAS FUNCIONES PARA MANEJAR VISTAS ---
+            const showRecoveryView = () => {
+                DOMElements.mainView.classList.add('is-hidden');
+                DOMElements.recoveryView.classList.add('is-active');
+            };
+
+            const hideRecoveryView = () => {
+                DOMElements.mainView.classList.remove('is-hidden');
+                DOMElements.recoveryView.classList.remove('is-active');
+
+                // Resetea el formulario de recuperación al ocultarlo
+                clearInterval(state.pinTimerInterval);
+                clearTimeout(state.resendPinTimeout);
+                setTimeout(() => {
+                    DOMElements.recoveryEmailInput.value = '';
+                    DOMElements.pinInput.value = '';
+                    DOMElements.newPasswordInput.value = '';
+                    DOMElements.confirmPasswordInput.value = '';
+                    Object.values(DOMElements.passwordRequirements).forEach(el => el.classList.remove('valid'));
+                    updateRecoveryStep('1');
+                    state.recoveryEmail = '';
+                }, 400); // Espera a que la transición termine
+            };
+
+            const updateRecoveryStep = (targetStep) => {
+                DOMElements.recoverySteps.forEach(step => {
+                    step.classList.toggle('is-hidden', step.dataset.step !== targetStep);
+                });
+                setTimeout(() => {
+                    if (targetStep === '1') DOMElements.recoveryEmailInput.focus();
+                    if (targetStep === '2') DOMElements.pinInput.focus();
+                    if (targetStep === '3') DOMElements.newPasswordInput.focus();
+                }, 400);
+            };
+            
+            // --- LÓGICA DE RECUPERACIÓN (CASI SIN CAMBIOS) ---
+            const handleSendPin = async (event) => {
+                const isResend = event.currentTarget.id === 'resendPinBtn';
+                const email = DOMElements.recoveryEmailInput.value.trim().toLowerCase();
+                if (!validateEmail(email)) return showError(DOMElements.recoveryEmailInput, 'Ingresa un correo válido.');
+                
+                DOMElements.sendPinBtn.disabled = true;
+                DOMElements.resendPinBtn.disabled = true;
+                showLoader();
+                await fakeApiCall();
+                hideLoader();
+                
+                const pin = Math.floor(100000 + Math.random() * 900000).toString();
+                state.recoveryEmail = email;
+                localStorage.setItem('recoveryPIN', JSON.stringify({ email, pin, expiry: Date.now() + 5 * 60 * 1000 }));
+                
+                DOMElements.userEmailForPin.textContent = email;
+                if (!isResend) updateRecoveryStep('2');
+                startPinTimer();
+                startResendCooldown();
+                
+                showToast('Código Enviado', `Tu código de verificación es: <strong>${pin}</strong>.`, 'success');
+                DOMElements.sendPinBtn.disabled = false;
+            };
+
+            const handleVerifyPin = async () => {
+                const pin = DOMElements.pinInput.value.trim();
+                if (pin.length !== 6) return showError(DOMElements.pinInput, 'El código debe tener 6 dígitos.');
+                
+                showLoader();
+                await fakeApiCall();
+                const storedData = JSON.parse(localStorage.getItem('recoveryPIN') || '{}');
+                hideLoader();
+
+                if (!storedData.pin || Date.now() > storedData.expiry) {
+                    showError(DOMElements.pinInput, 'El código ha expirado. Solicita uno nuevo.');
+                    DOMElements.pinTimer.textContent = "Expirado";
+                    clearInterval(state.pinTimerInterval);
+                    return;
+                }
+                if (storedData.email !== state.recoveryEmail || storedData.pin !== pin) {
+                    return showError(DOMElements.pinInput, 'El código es incorrecto.');
+                }
+                
+                clearInterval(state.pinTimerInterval);
+                updateRecoveryStep('3');
+            };
+
+            const handleUpdatePassword = async () => {
+                const newPass = DOMElements.newPasswordInput.value;
+                const confirmPass = DOMElements.confirmPasswordInput.value;
+                const isLengthValid = newPass.length >= 8;
+                const hasUppercase = /[A-Z]/.test(newPass);
+                const hasLowercase = /[a-z]/.test(newPass);
+                const hasNumber = /[0-9]/.test(newPass);
+                const hasSymbol = /[^A-Za-z0-9]/.test(newPass);
+                
+                if (!isLengthValid || !hasUppercase || !hasLowercase || !hasNumber || !hasSymbol) {
+                    return showError(DOMElements.confirmPasswordInput, 'La contraseña no cumple los requisitos.');
+                }
+                if (newPass !== confirmPass) {
+                    return showError(DOMElements.confirmPasswordInput, 'Las contraseñas no coinciden.');
+                }
+                
+                showLoader();
+                await fakeApiCall();
+                
+                let users = JSON.parse(localStorage.getItem('users')) || [];
+                const userIndex = users.findIndex(u => u.email.toLowerCase() === state.recoveryEmail);
+                if (userIndex !== -1) {
+                    users[userIndex].password = newPass;
+                    localStorage.setItem('users', JSON.stringify(users));
+                }
+
+                hideLoader();
+                localStorage.removeItem('recoveryPIN');
+                showToast('Éxito', 'Tu contraseña ha sido actualizada.', 'success');
+                setTimeout(hideRecoveryView, 2000);
+            };
+
+            const handlePasswordRequirements = () => {
+                const password = DOMElements.newPasswordInput.value;
+                const validations = {
+                    length: password.length >= 8,
+                    uppercase: /[A-Z]/.test(password),
+                    lowercase: /[a-z]/.test(password),
+                    number: /[0-9]/.test(password),
+                    symbol: /[^A-Za-z0-9]/.test(password),
+                };
+                for (const req in validations) {
+                    DOMElements.passwordRequirements[req].classList.toggle('valid', validations[req]);
+                }
+            };
+            
+            const startPinTimer = () => {
+                clearInterval(state.pinTimerInterval);
+                const expiryTime = JSON.parse(localStorage.getItem('recoveryPIN')).expiry;
+                state.pinTimerInterval = setInterval(() => {
+                    const timeLeft = Math.round((expiryTime - Date.now()) / 1000);
+                    if (timeLeft <= 0) {
+                        clearInterval(state.pinTimerInterval);
+                        DOMElements.pinTimer.textContent = "Expirado";
+                        showError(DOMElements.pinInput, 'Tu código ha expirado. Solicita uno nuevo.');
+                        return;
+                    }
+                    const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+                    const seconds = (timeLeft % 60).toString().padStart(2, '0');
+                    DOMElements.pinTimer.textContent = `Expira en: ${minutes}:${seconds}`;
+                }, 1000);
+            };
+            
+            const startResendCooldown = () => {
+                clearTimeout(state.resendPinTimeout);
+                DOMElements.resendPinBtn.disabled = true;
+                state.resendPinTimeout = setTimeout(() => {
+                    DOMElements.resendPinBtn.disabled = false;
+                }, 30000);
+            };
+
+            init();
+        });
+    </script>
+</body>
+</html>

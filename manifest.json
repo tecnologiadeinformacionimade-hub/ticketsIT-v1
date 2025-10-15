@@ -1,0 +1,23 @@
+{
+  "name": "Imade IT",
+  "short_name": "ImadeIT",
+  "description": "Portal de inicio de sesión y gestión Imade IT.",
+  "start_url": "login.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f7fa",
+  "theme_color": "#022c4f",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "xpront.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
