@@ -593,45 +593,51 @@ El personal de IT se pondrá en contacto con usted para brindarle el soporte cor
                 calendarGrid.appendChild(dayElement);
             }
         }
-
-        window.onload = function() {
+window.onload = function() {
+  try {
+    // Leer datos del almacenamiento local
     let isLoggedIn = localStorage.getItem('isLoggedIn');
     let currentUserName = localStorage.getItem('currentUserName');
 
-    // Si no hay sesión, pero venimos del login, mantenerla activa
-    if (!isLoggedIn) {
-        localStorage.setItem('isLoggedIn', 'true');
-        isLoggedIn = 'true';
+    // Si algo falla o no existe, forzar sesión activa
+    if (isLoggedIn !== 'true') {
+      localStorage.setItem('isLoggedIn', 'true');
+      isLoggedIn = 'true';
     }
 
-    // Si no hay usuario guardado, usar un valor por defecto
-    if (!currentUserName) {
-        localStorage.setItem('currentUserName', 'Usuario');
-        currentUserName = 'Usuario';
+    if (!currentUserName || currentUserName.trim() === '') {
+      localStorage.setItem('currentUserName', 'Usuario');
+      currentUserName = 'Usuario';
     }
 
+    // Actualizar interfaz
     document.getElementById('userNameHeader').textContent = currentUserName;
+    document.getElementById('userAvatar').textContent = currentUserName.charAt(0).toUpperCase();
 
-    const userAvatar = document.getElementById('userAvatar');
-    userAvatar.textContent = currentUserName.charAt(0).toUpperCase();
-
+    // Iniciar reloj y calendario
     setDate();
     updateClock();
     setInterval(updateClock, 1000);
-
     generateCalendar(currentCalendarDate);
 
     document.getElementById('prevMonthBtn').addEventListener('click', () => {
-        currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
-        generateCalendar(currentCalendarDate);
+      currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
+      generateCalendar(currentCalendarDate);
     });
 
     document.getElementById('nextMonthBtn').addEventListener('click', () => {
-        currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
-        generateCalendar(currentCalendarDate);
+      currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
+      generateCalendar(currentCalendarDate);
     });
+
+  } catch (e) {
+    console.error('Error cargando sesión:', e);
+    // En caso extremo, fuerza sesión activa
+    localStorage.setItem('isLoggedIn', 'true');
+  }
 };
 
+       
         document.addEventListener('DOMContentLoaded', () => {
             const toggleBtn = document.getElementById('toggleAnnouncementsBtn');
             const announcementList = document.getElementById('announcementList');
@@ -650,3 +656,4 @@ El personal de IT se pondrá en contacto con usted para brindarle el soporte cor
     </script>
 </body>
 </html>
+
